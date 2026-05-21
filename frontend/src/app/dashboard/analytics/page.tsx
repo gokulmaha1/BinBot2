@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { analyticsApi } from "@/lib/api";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Cell } from "recharts";
 
 export default function AnalyticsPage() {
   const [analytics, setAnalytics] = useState<any>(null);
@@ -70,7 +70,11 @@ export default function AnalyticsPage() {
               <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" fontSize={12} />
               <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
               <Tooltip contentStyle={{ backgroundColor: "hsl(var(--card))", border: "1px solid hsl(var(--border))" }} />
-              <Bar dataKey="pnl" fill={(data: any) => data.pnl >= 0 ? "#22c55e" : "#ef4444"} />
+              <Bar dataKey="pnl" fill="#3b82f6">
+                {(analytics?.daily_pnl || []).map((entry: any, index: number) => (
+                  <Cell key={`cell-${index}`} fill={entry.pnl >= 0 ? "#22c55e" : "#ef4444"} />
+                ))}
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
